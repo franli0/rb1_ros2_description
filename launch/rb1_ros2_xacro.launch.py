@@ -82,7 +82,7 @@ def generate_launch_description():
 
     # Controller spawners
     joint_state_broadcaster_spawner = TimerAction(
-        period=120.0,  # Wait 8 seconds for gazebo_ros2_control plugin to load
+        period=130.0,  # Wait 120 seconds for gazebo_ros2_control plugin to load
         actions=[Node(
             package="controller_manager",
             executable="spawner",
@@ -93,11 +93,22 @@ def generate_launch_description():
     )
 
     diff_drive_spawner = TimerAction(
-        period=120.0,  # Wait 12 seconds
+        period=130.0,  # Wait 120 seconds
         actions=[Node(
             package="controller_manager",
             executable="spawner",
             arguments=["rb1_base_controller",
+                       "-c", "/controller_manager"],
+            output="screen"
+        )]
+    )
+
+    elevator_spawner = TimerAction(
+        period=130.0,  # Wait 120 seconds
+        actions=[Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["elevator_controller",
                        "-c", "/controller_manager"],
             output="screen"
         )]
@@ -108,5 +119,6 @@ def generate_launch_description():
         rsp_robot1,
         spawn_robot1,
         joint_state_broadcaster_spawner,
-        diff_drive_spawner
+        diff_drive_spawner,
+        elevator_spawner
     ])
